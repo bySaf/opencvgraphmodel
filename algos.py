@@ -1,5 +1,6 @@
 import sys
 
+
 def dijkstra_algorithm(graph, start_node):
     unvisited_nodes = list(graph.get_nodes())
 

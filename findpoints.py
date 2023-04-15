@@ -9,7 +9,7 @@ from algos import result
 
 centers = []
 init_graph = {}
-mask1 = [0, 35, 40]
+mask1 = [0, 35, 40]]
 
 cv2.namedWindow("image")
 img = cv2.imread("aba2.png")

@@ -10,9 +10,9 @@ from algos import result
 centers = []
 init_graph = {}
 mask1 = [0, 35, 40]
-
+filename = "test2.png"
 cv2.namedWindow("image")
-img = cv2.imread("aba2.png")
+img = cv2.imread(filename)
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 h_min = np.array(mask1, np.uint8)
 h_max = np.array((255, 255, 255), np.uint8)
@@ -55,9 +55,14 @@ try:
     for i in range(len(path) - 1):
         cv2.line(img, (centers[path[i]][0], centers[path[i]][1]), (centers[path[i + 1]][0], centers[path[i + 1]][1]),
                  (255, 0, 0), 1)
-
+    cv2.imwrite(f"output{filename[-5]}.png", img)
     while cv2.waitKey(1) != 27:
         cv2.imshow('image', img)
 
 except KeyError:
+    my_file = open(f"output{filename[-5]}", "w+")
+    my_file.write("Невозможно")
     print("Невозможно")
+    my_file.close()
+
+

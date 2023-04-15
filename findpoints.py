@@ -77,10 +77,7 @@ def print_result(previous_nodes, shortest_path, start_node, target_node):
 
     while node != start_node:
         path.append(node)
-        try:
-            node = previous_nodes[node]
-        except KeyError:
-            return "SUCK MY DICK, BITCH"
+        node = previous_nodes[node]
 
     path.append(start_node)
     return shortest_path[target_node], path[::-1]

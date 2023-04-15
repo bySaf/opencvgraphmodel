@@ -1,38 +1,65 @@
+import sys
+
+def dijkstra_algorithm(graph, start_node):
+    unvisited_nodes = list(graph.get_nodes())
+
+    shortest_path = {}
+
+    previous_nodes = {}
+
+    max_value = sys.maxsize
+    for node in unvisited_nodes:
+        shortest_path[node] = max_value
+    shortest_path[start_node] = 0
+
+    while unvisited_nodes:
+        current_min_node = None
+        for node in unvisited_nodes:
+            if current_min_node == None:
+                current_min_node = node
+            elif shortest_path[node] < shortest_path[current_min_node]:
+                current_min_node = node
+
+        neighbors = graph.get_outgoing_edges(current_min_node)
+        for neighbor in neighbors:
+            tentative_value = shortest_path[current_min_node] + graph.value(current_min_node, neighbor)
+            if tentative_value < shortest_path[neighbor]:
+                shortest_path[neighbor] = tentative_value
+                previous_nodes[neighbor] = current_min_node
+
+        unvisited_nodes.remove(current_min_node)
+
+    return previous_nodes, shortest_path
 
 
-def Dijkstra(a, b, n):
-    a -= 1
-    b -= 1
-    g = []
-    for _ in range(n):
-        g.append([])
-    for i in range(n+20):
-        g[m[i][0] - 1].append([m[i][1] - 1, m[i][2]])
-    used = [False for _ in range(n)]
-    dist = [10 ** 9 for _ in range(n)]
-    dist[a] = 0
-    prev = [-1 for _ in range(n)]
-    for _ in range(n):
-        mnv = -1
-        mni = -1
-        for j in range(n):
-            if not used[j]:
-                if mnv == -1:
-                    mnv = dist[j]
-                    mni = j
-                else:
-                    if dist[j] < mnv:
-                        mnv = dist[j]
-                        mni = j
-        for j in range(len(g[mni])):
-            if dist[g[mni][j][0]] > dist[mni] + g[mni][j][1]:
-                dist[g[mni][j][0]] = dist[mni] + g[mni][j][1]
-                prev[g[mni][j][0]] = mni
-        used[mni] = True
-    ans = []
-    while prev[b] != -1:
-        ans.append(b + 1)
-        b = prev[b]
-    ans.append(b + 1)
-    ans.reverse()
-    return ans
+def result(previous_nodes, shortest_path, start_node, target_node):
+    path = []
+    node = target_node
+
+    while node != start_node:
+        path.append(node)
+        node = previous_nodes[node]
+
+    path.append(start_node)
+    return shortest_path[target_node], path[::-1]
+
+
+def bresenham_line(x0, y0, x1, y1):
+    dx = abs(x1 - x0)
+    dy = abs(y1 - y0)
+    sx = -1 if x0 > x1 else 1
+    sy = -1 if y0 > y1 else 1
+    err = dx - dy
+    res = []
+    while True:
+        res.append((x0, y0))
+        if x0 == x1 and y0 == y1:
+            break
+        e2 = 2 * err
+        if e2 > -dy:
+            err -= dy
+            x0 += sx
+        if e2 < dx:
+            err += dx
+            y0 += sy
+    return res
